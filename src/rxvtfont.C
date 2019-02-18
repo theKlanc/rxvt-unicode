@@ -1267,16 +1267,16 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
           if (!has_char (*t, &prop, careful))
             continue;
 
-          foundWidth = true;
-
           XGlyphInfo g;
           XftTextExtents16 (disp, f, &ch, 1, &g);
 
           g.width -= g.x;
 
           int wcw = WCWIDTH (ch);
-          if (wcw > 0) g.width = (g.width + wcw - 1) / wcw;
-
+          if (wcw > 0) {
+              g.width = (g.width + wcw - 1) / wcw;
+              foundWidth = true;
+          }
           if (width    < g.width       ) width    = g.width;
           if (height   < g.height      ) height   = g.height;
           if (glheight < g.height - g.y) glheight = g.height - g.y;
