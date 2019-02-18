@@ -1239,9 +1239,17 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
 
       FT_Face face = XftLockFace (f);
 
+      /*
+       * use ascent, descent and height from XftFont *f instead of FT_Face face.
+       * this somehow reproduces the behaviour of the line height as seen on xterm.
       ascent  = (face->size->metrics.ascender + 63) >> 6;
       descent = (-face->size->metrics.descender + 63) >> 6;
       height  = max (ascent + descent, (face->size->metrics.height + 63) >> 6);
+      width   = 0;
+*/
+      ascent  = f->ascent;
+      descent = f->descent;
+      height  = max (ascent + descent, f->height);
       width   = 0;
 
       bool scalable = face->face_flags & FT_FACE_FLAG_SCALABLE;
@@ -1278,7 +1286,7 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
 
       if (!width)
         {
-          rxvt_warn ("unable to calculate font width for '%s', try setting a lower size, ignoring.\n", name);
+          rxvt_warn ("unable to calculate font width for '%s', ignoring.\n", name);
           
           XftFontClose (disp, f);
           f = 0;
