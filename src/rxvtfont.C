@@ -157,8 +157,7 @@ static const struct rxvt_fallback_font {
 static uint16_t extent_test_chars[] = {
   '0', '1', '8', 'a', 'd', 'x', 'm', 'y', 'g', 'W', 'X', '\'', '_',
   0x00cd, 0x00d5, 0x0114, 0x0177, 0x0643,	// ÍÕĔŷﻙ
-  0x304c, 0x672c,				// が本
-  0xf118, 0xf2c6,               // 
+  0x304c, 0x672c, 0xf118, 0xf2c6,               // が本
 };
 
 #define dTermDisplay Display *disp = term->dpy
