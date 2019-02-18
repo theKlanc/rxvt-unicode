@@ -1274,7 +1274,7 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
           if (wcw > 0) g.width = (g.width + wcw - 1) / wcw;
 
           if (width    < g.width       ) width    = g.width;
-          else rxvt_warn("Font '%s' width is greater than the previous font's width and cannot be used as fallback, try setting a lower size", name);
+          else rxvt_warn("Font '%s' width is greater than the previous font's width and cannot be used as fallback, try setting a lower size\n", name);
           if (height   < g.height      ) height   = g.height;
           if (glheight < g.height - g.y) glheight = g.height - g.y;
         }
