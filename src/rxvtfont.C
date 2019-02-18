@@ -1251,6 +1251,8 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
 
       int glheight = height;
 
+      bool foundWidth = false;
+
       for (uint16_t *t = extent_test_chars; t < extent_test_chars + ecb_array_length (extent_test_chars); t++)
         {
           FcChar16 ch = *t;
@@ -1265,6 +1267,8 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
           if (!has_char (*t, &prop, careful))
             continue;
 
+          foundWidth = true;
+
           XGlyphInfo g;
           XftTextExtents16 (disp, f, &ch, 1, &g);
 
@@ -1274,14 +1278,14 @@ rxvt_font_xft::load (const rxvt_fontprop &prop, bool force_prop)
           if (wcw > 0) g.width = (g.width + wcw - 1) / wcw;
 
           if (width    < g.width       ) width    = g.width;
-          else rxvt_warn("Font '%s' width is greater than the previous font's width and cannot be used as fallback, try setting a lower size\n", name);
           if (height   < g.height      ) height   = g.height;
           if (glheight < g.height - g.y) glheight = g.height - g.y;
         }
 
       if (!width)
         {
-          rxvt_warn ("unable to calculate font width for '%s', ignoring.\n", name);
+          if(!foundWidth) rxvt_warn ("unable to calculate font width for '%s', ignoring.\n", name);
+          else rxvt_warn("Font '%s' width is greater than the previous font's width and cannot be used as fallback, try setting a lower size\n", name);
 
           XftFontClose (disp, f);
           f = 0;
